@@ -1,85 +1,83 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        <div class="invoice-container">
-          <span>Invoice#45123</span>
-          <div class="status-indicator"></div>
-        </div>
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content class="ion-padding">
-    <h2>Conduct Sale</h2>
-    
-    <ion-card>
-      <ion-card-content>
-        <ion-item>
-         
-          <ion-input placeholder = "Generic customer"></ion-input>
-          <ion-toggle slot="end" checked></ion-toggle>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-    
-    <div class="item-selection">
-      <h3>Item Selection</h3>
-      <ion-item>
-        <ion-label position="floating">Item Name</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      
-      <div class="quantity-selector">
-        <ion-item>
-          <ion-label position="floating">Quantity</ion-label>
-          <ion-input type="number" value="1"></ion-input>
-        </ion-item>
-       
-      </div>
-      
-      <ion-button expand="block" color="success" class="add-button">
-        Add Item
+  <ion-toolbar>
+    <ion-title>
+      POS APPLICATION
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
       </ion-button>
-    </div>
-    
-    <div class="summary">
-      <h3>Summary</h3>
-      <p class="total">Total: $ 45.00</p>
-      
-      <ion-list>
-        <ion-item lines="none" class="header-row">
-          <ion-label>Item</ion-label>
-          <ion-label class="ion-text-end">Quantity</ion-label>
-          <ion-label class="ion-text-end">Price</ion-label>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Item List -->
+  <ion-list class="item-list">
+    <ion-item *ngFor="let item of bakeryItems; let i = index">
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>$TTD{{ item.price }}</p>
+      </ion-label>
+      <div class="quantity-controls">
+        <ion-button fill="clear" (click)="decreaseQuantity(i)">
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </ion-button>
+        <span>{{ item.quantity }}</span>
+        <ion-button fill="clear" (click)="increaseQuantity(i)">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <!-- Summary Section -->
+  <ion-card class="summary-card">
+    <ion-card-header>
+      <ion-card-title>Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="full">
+        <ion-item *ngFor="let item of cartItems">
+          <ion-label>{{ item.name }} x{{ item.quantity }}</ion-label>
+          <ion-note slot="end">{{ item.price * item.quantity | currency:'TTD' }}</ion-note>
         </ion-item>
-        
         <ion-item>
-          <ion-label>Coconut Bread</ion-label>
-          <ion-label class="ion-text-end">1</ion-label>
-          <ion-label class="ion-text-end">$ 15.00</ion-label>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Currants Roll</ion-label>
-          <ion-label class="ion-text-end">2</ion-label>
-          <ion-label class="ion-text-end">$ 7.00</ion-label>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Jam Tart</ion-label>
-          <ion-label class="ion-text-end">2</ion-label>
-          <ion-label class="ion-text-end">$ 14.00</ion-label>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Chicken Pie</ion-label>
-          <ion-label class="ion-text-end">1</ion-label>
-          <ion-label class="ion-text-end">$ 9.00</ion-label>
+          <ion-label><strong>Sub Total</strong></ion-label>
+          <ion-note slot="end"><strong>$TTD{{ subtotal }}</strong></ion-note>
         </ion-item>
       </ion-list>
-    </div>
-    
-    <ion-button expand="block" color="success" class="confirm-button">
-      Confirm Sale
-    </ion-button>
-  </ion-content>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Confirm Button -->
+  <ion-button expand="block" color="primary" class="confirm-button">
+    Confirm Sale
+  </ion-button>
+
+  <!-- Bottom Navigation -->
+  <ion-footer>
+    <ion-toolbar>
+      <ion-tabs>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="home">
+            <ion-icon name="home-outline"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="inventory">
+            <ion-icon name="list-outline"></ion-icon>
+            <ion-label>Inventory</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="sales">
+            <ion-icon name="cash-outline"></ion-icon>
+            <ion-label>Sales</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="settings">
+            <ion-icon name="settings-outline"></ion-icon>
+            <ion-label>Settings</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>
